@@ -9,11 +9,11 @@ export const mutations = {
 
 export const actions = {
   getPhotos(context, payload) {
-    this.$axios.$get(`https://api.unsplash.com/search/photos/?client_id=${context.state.apiKey}`)
+    this.$axios.$get(`https://api.unsplash.com/search/photos?page=1&query=africa`)
       .then((res) => {
         console.log(res)
-        payload.imageUrl = res
-        console.log(payload)
+        payload.imageUrl = res.results
+        console.log(payload.imageUrl)
       })
   }
 }

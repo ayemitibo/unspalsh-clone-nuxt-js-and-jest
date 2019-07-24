@@ -15,6 +15,11 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       { rel: 'stylesheet', type: 'text/css', href: 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' },
       { rel: 'stylesheet', type: 'text/css', href: '/css/index.css' }
+    ],
+    script: [
+      { src: 'https://code.jquery.com/jquery-3.3.1.slim.min.js', type: 'text/javascript' },
+      { src: 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js', type: 'text/javascript' },
+      { src: 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js', type: 'text/javascript' }
     ]
   },
   /*
@@ -30,6 +35,7 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    { src: '@/plugins/vue-masonry.js', ssr: false },
   ],
   /*
   ** Nuxt.js modules
