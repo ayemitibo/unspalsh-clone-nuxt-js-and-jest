@@ -8,12 +8,10 @@ export const mutations = {
 }
 
 export const actions = {
-  getPhotos(context, payload) {
-    this.$axios.$get(`https://api.unsplash.com/search/photos?page=1&query=africa`)
-      .then((res) => {
-        console.log(res)
-        payload.imageUrl = res.results
-        console.log(payload.imageUrl)
-      })
+  getPhotos(vexcontext, payload) {
+    const url = `https://api.unsplash.com/search/photos?page=1&query=africa`
+    this.$axios.$get(url).then((res) => {
+      payload.imageUrl = res.results
+    })
   }
 }

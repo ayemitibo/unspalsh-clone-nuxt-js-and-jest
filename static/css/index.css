@@ -1,16 +1,4 @@
-.contain{
-    height: 120px;
-    padding : 0;
-    position: relative;
+body {
+  background: #000;
 }
-.nav-height{
-    height: 100%;
-    background-color: #d1d5da !important;
-}
-.search-box{
-    width: 70%;
-    margin: auto;
-}
-.search-field{
-    width : 100% !important;
-}
+

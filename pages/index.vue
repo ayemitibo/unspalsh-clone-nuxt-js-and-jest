@@ -1,133 +1,91 @@
 <template>
-  <div class="container-fliud contain">
-    <!-- <div ref="show">
-      <content-loader
-        :height="600"
-        :width="500"
-        :speed="2"
-        primaryColor="#f0ebf2"
-        secondaryColor="#f5ebf0"
-      >
-        <circle cx="-78" cy="-53" r="30" />
-        <rect x="238.03" y="0.27" rx="5" ry="5" width="160" height="228" />
-        <rect x="335" y="-33" rx="4" ry="4" width="100" height="13" />
-        <rect x="36.03" y="-6.73" rx="5" ry="5" width="164" height="228" />
-        <rect x="235.03" y="241.27" rx="5" ry="5" width="160" height="228" />
-        <rect x="38.03" y="231.27" rx="5" ry="5" width="160" height="228" />
-      </content-loader>
-    </div> -->
-    <nav class="navbar navbar-light bg-light w-100 nav-height w-100">
-            <!-- <form class="form-inline search-box"> -->
-            <div class="search-box">
-              <input class="form-control mr-sm-2 search-field" type="text"
-              v-model="search"
-              @keyup.enter="searchField()"
-              placeholder="Search">
+  <div class="wrapper">
+    <!-- search bar -->
+    <section class="mb-5 pb-5 shadow">
+      <nav class="navbar navbar-light bg-light fixed-top p-3">
+        <div class="container">
+          <form class="search-box d-flex justify-content-center align-items-center">
+              <input 
+                class="form-control mr-sm-2 search-field" type="text"
+                v-model="search"
+                @keyup.enter="searchField()"
+                placeholder="What do you want to see?"
+              >
+              <button class="btn btn-danger" @click.prevent="searchField()">Go!</button>
+            </form>
+        </div>
+      </nav>
+    </section>
+    <!-- display images -->
+    <section class="mt-5 pt-3">
+      <div class="container">
+        <div class="card-columns">
+          <div class="card border border-0 shadow" v-for="item in imageUrl" :key="item.id">
+            <img :src="item.urls.regular" class="img-fluid"  data-toggle="modal" data-target="#imageModal" @click="view(item)" />
+            <div class="bg-white p-3">
+              <h6>
+                <span class="mr-2">  <img :src="item.user.profile_image.medium" class="img-fluid round"/></span>
+                <span>{{item.user.first_name}} {{item.user.last_name}}</span>
+              </h6>
+              <div class="d-flex justify-content-between align-items-center">
+                <p class="text-muted" v-if="item.user.location"><span class="ti-map-alt mr-2"></span>{{item.user.location}}</p>
+                <p class="text-muted" v-else><span class="ti-map-alt mr-2"></span>Nigeria</p>
+                <p class="text-danger"><span class="ti-heart mr-2"></span>{{item.likes}}</p>
+              </div>
             </div>
-            <!-- </form> -->
-            <div v-if="show == true">
-              <h3>search Result for {{search}}</h3>
-            </div>
-    </nav>
-    <div class="space-around" ref="hide">
-      <masonry
-        :cols="{default: 3, 1000: 3, 700: 2, 400: 1}"
-        :gutter="{default: '15px', 700: '10px'}"
-        class="position"
-        >
-        <div v-for="(item, index) in imageUrl" :key="index" class="no-border">
-          <div class="relative">
-             <img :src="item.urls.thumb"
-              data-toggle="modal"
-              @click="getCurrentImage(item.id)"
-             data-target=".bd-example-modal-xl"/>
-             <div class="absolute">
-               <span style="display : block"><p>{{item.user.name}}</p></span>
-               <span style="display : block"><p>{{item.user ? item.user.location : "Nigeria"}}</p></span>
-             </div>
           </div>
         </div>
-      </masonry>
-    </div>
-    <Modal ref="modal"></Modal>
+      </div>
+    </section>
+    <!-- modal for single image -->
+    <section>
+      <Modal :item='singleImage' />
+    </section>
   </div>
 </template>
 
 <script>
-import Modal from '@/components/modal'
-import { ContentLoader } from 'vue-content-loader'
 export default {
-  components : {
-    Modal,
-    ContentLoader
-  },
   data(){
     return{
       imageUrl : [],
+      singleImage: {},
       search : "",
-      show : false,
       currentImageId : ""
     }
   },
   methods : {
     searchField(){
-      // e.preventDefault()
       this.$axios.$get(`https://api.unsplash.com/search/photos?page=1&query=${this.search}`)
       .then((res) => {
-        this.show = true
+        console.log('res', res)
+        this.search = "",
         this.imageUrl = res.results
-        // console.log(payload.imageUrl)
       })
     },
-    getCurrentImage(id){
-      console.log(id)
-      // this.currentImageId = id
-      this.$refs.modal.getImage(id)
-    }
+    view (item) {
+      this.singleImage = item
+      console.log('item', item)
+    },
   },
   created(){
-    // this.$refs.hide.style.display = "none"
-    // this.$refs.show.style.display = "block"
-    this.$store.dispatch("getphotos/getPhotos",this)
-    // setTimeout(() => {
-    //   this.$refs.hide.style.display = "block"
-    //   this.$refs.show.style.display = "none"
-    // })
-
+    this.$store.dispatch("getphotos/getPhotos", this)
   }
 }
 </script>
 <style scoped>
-img{
-  width: 250px;
-  margin-bottom: 20px;
-  margin-right: 10px;
-  margin-left: 10px;
-  /* margin : 5px 10px; */
-  /* height : 300px; */
-}
-.space-around{
-  width: 70%;
-  margin : 0 auto;
-}
-.no-border{
-  border-width: 0 !important;
-}
-.position{
-  position : absolute;
-  top : calc(100% - 20px);
-  z-index : 2;
-  box-shadow : 20px 20px 10px transparent;
-}
-.relative{
-  position: relative;
-}
-.absolute{
-  position: absolute;
-    top: 75%;
-    left: 6%;
-    color: white;
-}
+  .search-box{
+    width: 50%;
+    margin: auto;
+  }
+  .search-field{
+    width : 100% !important;
+  }
+  img.round {
+    height: 40px;
+    width: 40px;
+    border-radius: 100%;
+  }
 </style>
 
 

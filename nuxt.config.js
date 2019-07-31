@@ -13,19 +13,20 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', type: 'text/css', href: 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' },
+      { rel: 'stylesheet', type: 'text/css', href: '/css/lib/themify-icons/css/themify-icons.css' },
+      { rel: 'stylesheet', type: 'text/css', href: '/css/lib/bootstrap/bootstrap.min.css' },
+      { rel: 'stylesheet', type: 'text/css', href: '/css/lib/image-hover/imagehover.min.css' },
       { rel: 'stylesheet', type: 'text/css', href: '/css/index.css' }
     ],
     script: [
-      { src: 'https://code.jquery.com/jquery-3.3.1.slim.min.js', type: 'text/javascript' },
-      { src: 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js', type: 'text/javascript' },
-      { src: 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js', type: 'text/javascript' }
+      { src: '/js/lib/jquery/jquery.min.js' },
+      { src: '/js/lib/bootstrap/bootstrap.min.js' }
     ]
   },
   /*
   ** Customize the progress-bar color
   */
-  loading: { color: '#fff' },
+  loading: { color: '#ffc107' },
   /*
   ** Global CSS
   */
@@ -35,7 +36,7 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    { src: '@/plugins/vue-masonry.js', ssr: false },
+    { src: '@/plugins/core-components', ssr: false }
   ],
   /*
   ** Nuxt.js modules
